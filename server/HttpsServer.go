@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/robbiedobbie/FileSpateTracker/protogen"
+	"github.com/Robbiedobbie/FileSpateTracker/protogen"
 
 	"github.com/golang/protobuf/proto"
 )

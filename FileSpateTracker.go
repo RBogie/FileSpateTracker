@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/robbiedobbie/FileSpateTracker/server"
+	"github.com/Robbiedobbie/FileSpateTracker/server"
 )
 
 func main() {
