@@ -3,6 +3,10 @@ package server
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/robbiedobbie/FileSpateTracker/protogen"
+
+	"github.com/golang/protobuf/proto"
 )
 
 type server struct {
@@ -15,6 +19,10 @@ func NewServer() *server {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
+	rawMessage := make([]byte, r.ContentLength)
+	r.Body.Read(rawMessage)
+	message := new(protogen.Request)
+	proto.Unmarshal(rawMessage, message)
 	fmt.Fprint(w, "Nobody should read this.")
 }
 
