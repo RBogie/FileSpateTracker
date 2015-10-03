@@ -3,6 +3,8 @@ language: go
 go:
   - tip
 
+sudo: required #Needed for installing protobuf...
+
 before_install:
   - ./install-protobuf.sh
 
