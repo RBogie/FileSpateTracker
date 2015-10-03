@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+message Request {
+  message RequestData {
+    enum Status {
+      Running = 0;
+      Started = 1;
+      Stopped = 2;
+      Completed = 3;
+    }
+
+    bytes spateHash = 1; //Required
+    bytes peerPublicKey = 2; //Required
+    bytes ip = 3; // Should be a IPv6 ip. IPv4 ip's have to be converted to IPv6.
+    int32 port = 4;
+    uint64 downloaded = 5; //Amount downloaded in bytes
+    uint64 uploaded = 6; //Amount uploaded in bytes
+    uint64 amountLeft = 7; //Amount of bytes that still have to be downloaded
+    Status status = 8;
+    int32 numPeersWanted = 9;
+  }
+
+  RequestData data = 1; //Required
+  bytes signature = 2; //Required
+}
