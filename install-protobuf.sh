@@ -1,6 +1,10 @@
 #!/bin/sh
-
-set -ex
-wget https://github.com/google/protobuf/archive/v3.0.0-beta-1.tar.gz
-tar -xzvf v3.0.0-beta-1.tar.gz
-cd v3.0.0-beta-1 && ./configure --prefix=/usr && make && sudo make install
+set -e
+# check to see if protobuf folder is empty
+if [ ! -d "$HOME/protobuf/lib" ]; then
+  https://github.com/google/protobuf/archive/v3.0.0-beta-1.tar.gz
+  tar -xzvf v3.0.0-beta-1.tar.gz
+  cd v3.0.0-beta-1 && ./configure --prefix=$HOME/protobuf && make && make install
+else
+  echo "Using cached directory."
+fi

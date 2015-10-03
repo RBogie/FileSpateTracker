@@ -3,10 +3,15 @@ language: go
 go:
   - tip
 
-sudo: required #Needed for installing protobuf...
+cache:
+  directories:
+  - $HOME/protobuf
+
+sudo: false
 
 before_install:
   - ./install-protobuf.sh
+  export PATH=$PATH:$HOME/protobuf/bin/
 
 install:
   - ./build.sh
