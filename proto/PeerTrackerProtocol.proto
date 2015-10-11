@@ -14,14 +14,37 @@ message Request {
     bytes spateHash = 1; //Required
     bytes peerPublicKey = 2; //Required
     bytes ip = 3; // Should be a IPv6 ip. IPv4 ip's have to be converted to IPv6.
-    int32 port = 4;
+    uint32 port = 4;
     uint64 downloaded = 5; //Amount downloaded in bytes
     uint64 uploaded = 6; //Amount uploaded in bytes
     uint64 amountLeft = 7; //Amount of bytes that still have to be downloaded
     Status status = 8;
-    int32 numPeersWanted = 9;
+    uint32 numPeersWanted = 9;
   }
 
   RequestData data = 1; //Required
   bytes signature = 2; //Required
+}
+
+message Response {
+  enum Status {
+    Succes = 0; //Request was succesfull, responseData should be filled in.
+    Error = 1; //Some error occured, see errorMessage for more info.
+  }
+
+  message ResponseData {
+    message Peer {
+      bytes peerPublicKey = 1; //The public key of this peer. Should be used to check the ssl connection certificate.
+      bytes ipAddress = 2; //The ipv6 address. ipv4 addresses should be translated to a ipv6 address like this: 192.168.1.1 -> ::ffff:192.168.1.1
+      uint32 port = 3; //The port on which this peer is listening.
+    }
+    uint32 updateInterval = 1; //How much time should be inbetween status updates from peer to tracker
+    repeated Peer peer = 2; //List of peers.
+  }
+
+  Status status=1;
+  Oneof payload {
+    string errorMessage = 3; //Set if status is error. Contains information about the error.
+    ResponseData responseData = 2; //Set if status is succes. Contains requested data.
+  }
 }

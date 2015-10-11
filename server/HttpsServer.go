@@ -1,7 +1,9 @@
 package server
 
 import (
+	"crypto"
 	"crypto/rsa"
+	"crypto/sha256"
 	"crypto/x509"
 	"fmt"
 	"net/http"
@@ -13,6 +15,12 @@ import (
 )
 
 type server struct {
+}
+
+func hash(data []byte) []byte {
+	h := sha256.New()
+	h.Write(data)
+	return h.Sum(nil)
 }
 
 func exit(err error) {
@@ -35,7 +43,8 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 	pub, errParse := x509.ParsePKIXPublicKey(message.Data.PeerPublicKey)
 	dataBytes, _ := proto.Marshal(message.GetData())
-	err := rsa.VerifyPKCS1v15(pub.(*rsa.PublicKey), 0, dataBytes, message.Signature)
+	hash := hash(dataBytes)
+	err := rsa.VerifyPKCS1v15(pub.(*rsa.PublicKey), crypto.SHA256, hash, message.Signature)
 	fmt.Println("verify:", err)
 
 	if errParse != nil {
