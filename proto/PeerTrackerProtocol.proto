@@ -43,7 +43,7 @@ message Response {
   }
 
   Status status=1;
-  Oneof payload {
+  Oneof payload = 4 {
     string errorMessage = 3; //Set if status is error. Contains information about the error.
     ResponseData responseData = 2; //Set if status is succes. Contains requested data.
   }
